@@ -2,11 +2,19 @@ import { useState, useEffect } from "react";
 import data from "./data";
 import Articolo from "./Articolo";
 
-//Funzione che se presente 'Theme' nel localStorage
-// returna il suo valore o di default return 'light-mode'
+// func if 'theme' is present in local storage
+const getFromLocalStorage = () => {
+  if (localStorage.getItem('theme')) {
+    return localStorage.getItem('theme')
+  } else {
+    return 'light-mode';
+  }
+}
+
+// returna his value or default return 'light-mode'
 
 function App() {
-  const [theme, setTheme] = useState('light-mode')
+  const [theme, setTheme] = useState(getFromLocalStorage())
 
   // func that change theme according to the value
   const changeTheme = () => {
@@ -20,7 +28,9 @@ function App() {
   // changing theme state add a class to html tag
   useEffect(() => {
     document.documentElement.className = theme;
-  },[theme])
+    localStorage.setItem('theme', theme);
+  },[theme]);
+
   return (
     <section className="section-center">
       <div className="container">
